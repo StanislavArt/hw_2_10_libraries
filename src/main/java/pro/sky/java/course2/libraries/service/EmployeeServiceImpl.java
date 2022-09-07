@@ -1,5 +1,6 @@
 package pro.sky.java.course2.libraries.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.libraries.Employee;
 
@@ -31,7 +32,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (findEmployee(firstName, lastName) != null) {
             throw new EmployeeAlreadyAddedException();
         }
-        employees.put(firstName + " " + lastName, new Employee(firstName, lastName, department, salary));
+        String firstNameCapitalized = StringUtils.capitalize(firstName);
+        String lastNameCapitalized = StringUtils.capitalize(lastName);
+        employees.put(firstNameCapitalized + " " + lastNameCapitalized, new Employee(firstNameCapitalized, lastNameCapitalized, department, salary));
     }
 
     @Override
@@ -40,12 +43,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         if ( employee == null) {
             throw new EmployeeNotFoundException();
         }
-        employees.remove(firstName + " " + lastName);
+        employees.remove(StringUtils.capitalize(firstName) + " " + StringUtils.capitalize(lastName));
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        return employees.get(firstName + " " + lastName);
+        if(!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
+            throw new NameErrorException();
+        }
+        return employees.get(StringUtils.capitalize(firstName) + " " + StringUtils.capitalize(lastName));
     }
 
     @Override
