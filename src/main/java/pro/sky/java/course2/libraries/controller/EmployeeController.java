@@ -1,5 +1,6 @@
 package pro.sky.java.course2.libraries.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course2.libraries.Employee;
 import pro.sky.java.course2.libraries.service.EmployeeNotFoundException;
@@ -23,14 +24,14 @@ public class EmployeeController {
                               @RequestParam("department") int department,
                               @RequestParam("salary") double salary) {
         employeeService.addEmployee(firstName, lastName, department, salary);
-        String result = "Сотрудник \"" + firstName + " " + lastName + "\" успешно добавлен";
+        String result = "Сотрудник \"" + StringUtils.capitalize(firstName) + " " + StringUtils.capitalize(lastName) + "\" успешно добавлен";
         return result;
     }
 
     @GetMapping("/remove")
     public String removeEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
         employeeService.removeEmployee(firstName, lastName);
-        String result = "Сотрудник \"" + firstName + " " + lastName + "\" успешно удален";
+        String result = "Сотрудник \"" + StringUtils.capitalize(firstName) + " " + StringUtils.capitalize(lastName) + "\" успешно удален";
         return result;
     }
 
